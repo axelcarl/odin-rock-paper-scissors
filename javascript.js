@@ -36,22 +36,61 @@ function playRound(playerSelection, computerSelection) {
 
 
 
-function game() {
-  let playerPoints = 0;
-  let computerPoints = 0;
-  for (let i = 0; i < 5; i++) {
-    let playSel = prompt("Type Rock, Paper or Scissors: ");
+function game(playSel) {
     let compSel = getComputerChoice();
     let round = playRound(playSel, compSel);
-    console.log(round);
-    if (round.charAt(4) == 'W')
-      playerPoints
-    else if (round.charAt(4) == 'L')
-      computerPoints++;
-  }
-  if (playerPoints > computerPoints)
-    console.log('Player Wins!')
-  else if (computerPoints > playerPoints)
-    console.log('Computer Wins!')
-  else console.log('Its a Tie!')
+    return round;
 }
+
+let gameStarted = false;
+let gameScreen = document.getElementById('active');
+let startScreen = document.getElementById('start');
+
+let startText = startScreen.querySelector('.start-text')
+startText.addEventListener('click', () => {
+  gameStarted = true;
+  checkState();
+});
+
+let message;
+
+function checkState() {
+if (gameStarted) {
+  document.querySelector('.score').innerHTML = '';
+  message = '';
+  gameScreen.style.display = 'flex';
+  startScreen.style.display = 'none';
+
+  rock = document.getElementById('rock');
+  rock.addEventListener('click', () => {
+    message = game('rock');
+    document.querySelector('.score').innerHTML = '';
+    document.querySelector('.score').append(message)
+    gameStarted = false;
+    checkState();
+  })
+  paper = document.getElementById('paper');
+  paper.addEventListener('click', () => {
+    message = game('paper');
+    document.querySelector('.score').innerHTML = '';
+    document.querySelector('.score').append(message)
+    gameStarted = false;
+    checkState();
+  })
+  scissors = document.getElementById('scissors');
+  scissors.addEventListener('click', () => {
+    message = game('scissors');
+    document.querySelector('.score').innerHTML = '';
+    document.querySelector('.score').append(message)
+    gameStarted = false;
+    checkState();
+  })
+} else {
+  gameScreen.style.display = 'none';
+  startScreen.style.display = 'flex';
+  
+}}
+
+checkState();
+
+
